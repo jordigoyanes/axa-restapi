@@ -1,0 +1,12 @@
+{
+    "watch": [
+        "*.ts",
+        "*.yaml",
+        "*.js"
+    ],
+    "ignore": [
+        "node_modules"
+    ],
+    "ext": "ts js yaml",
+    "exec": "ts-node ./src/index.ts"
+}
