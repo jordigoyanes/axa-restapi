@@ -1,48 +1,127 @@
 openapi: 3.0.0
 info:
-  title: Sample API
-  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  title: AXA
+  description: Rest API for AXA
   version: 0.1.9
-servers:
-  - url: http://localhost
-    description: Optional server description, e.g. Main (production) server
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+
 paths:
-  /login:
+  /api/login:
     post:
       summary: Returns a bearer token.
-      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              parameters:
+              required:
+                - client_id
+                - client_secret
+              properties:
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
       responses:
         "200": # status code
-          description: A JSON array of user names
+          description: Returns a bearer token
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
-  /clients:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  type:
+                    type: string
+        "401": # status code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/clients:
     get:
       summary: Returns a list of clients.
-      description: Optional extended description in CommonMark or HTML.
+      tags:
+        - clients
+      security:
+        - bearerAuth: []
       responses:
         "200": # status code
-          description: A JSON array of user names
+          description: A JSON array of clients
           content:
             application/json:
+              type: object
               schema:
-                type: array
-                items:
-                  type: string
-  /policies:
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  role:
+                    type: string
+        "304": # status code
+          description: A JSON array of clients
+          content:
+            application/json:
+              type: object
+        "401": # status code
+          content:
+            application/json:
+              type: object
+              schema:
+                properties:
+                  message:
+                    type: string
+
+  /api/policies:
     get:
       summary: Returns a list of policies.
-      description: Optional extended description in CommonMark or HTML.
+      security:
+        - bearerAuth: []
+      tags:
+        - policies
       responses:
         "200": # status code
-          description: A JSON array of user names
+          description: A JSON array of policies
           content:
             application/json:
+              type: object
               schema:
-                type: array
-                items:
-                  type: string
+                properties:
+                  id:
+                    type: string
+                  amountInsured:
+                    type: string
+                  email:
+                    type: string
+                  inceptionDate:
+                    type: string
+                  installmentPayment:
+                    type: string
+                  clientId:
+                    type: string
+        "304": # status code
+          content:
+            application/json:
+              type: object
+        "401": # status code
+          content:
+            application/json:
+              type: object
+              schema:
+                properties:
+                  message:
+                    type: string

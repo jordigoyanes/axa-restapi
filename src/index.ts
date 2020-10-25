@@ -17,9 +17,12 @@ app.use(bodyParser.json())
 app.use(auth)
 app.use("/api", router)
 
-const swaggerDocument = YAML.load(path.resolve(__dirname, '../swagger.yaml'));
+let swaggerDocument = YAML.load(path.resolve(__dirname, '../swagger.yaml'));
+swaggerDocument.host = "localhost:" + port
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
 app.listen(port, () => {
     console.log("Server listening at http://localhost:" + port)
+    console.log("API documentation at http://localhost:" + port + "/api-docs")
+
 })
