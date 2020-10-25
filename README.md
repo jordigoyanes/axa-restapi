@@ -9,6 +9,10 @@ Run development server with nodemon:
 ```
 nodemon
 ```
+Run tests with jest:
+```
+npm run test
+```
 
 The server's default port is ``3000``. You can change it by editing the ``PORT`` variable inside the ``.env`` file located in the root folder.
 
